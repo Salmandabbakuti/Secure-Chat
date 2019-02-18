@@ -42,11 +42,31 @@
         }
     })
 }
- const address = "0xb32bbDCaF08363286e660ddffc520A2C611746Eb";
-  const abi = [{"constant":false,"inputs":[{"name":"_name","type":"string"}],"name":"createAccount","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_index","type":"uint256"}],"name":"getMessage","outputs":[{"name":"","type":"string"},{"name":"","type":"string"},{"name":"","type":"address"},{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"to","type":"address"},{"name":"_content","type":"string"}],"name":"writeMessage","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"messagesLength","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"}];
+ const address = "0x7670dCe4Ac769d5ee5D6f52C29909b0b55C44c60";
+  const abi = [{"constant":false,"inputs":[{"name":"_name","type":"string"}],"name":"createAccount","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"getMyName","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_index","type":"uint256"}],"name":"getMessage","outputs":[{"name":"","type":"string"},{"name":"","type":"string"},{"name":"","type":"address"},{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getMyAddress","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"to","type":"address"},{"name":"_content","type":"string"}],"name":"writeMessage","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"messagesLength","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"}];
   secureChat = web3.eth.contract(abi).at(address);
   $(function () {
     var secureChat;
+    $('#myProfile').click( function (e) {
+      e.preventDefault();
+      secureChat.getMyName.call( function (err, result1) {
+        if (err) {
+          return error(err);
+        } 
+        // The return value is a BigNumber object
+        document.getElementById("getName").innerHTML = result1;
+      });
+    });
+    $('#myProfile').click(function (e) {
+      e.preventDefault();
+      secureChat.getMyAddress.call( function (err, result1) {
+        if (err) {
+          return error(err);
+        } 
+        // The return value is a BigNumber object
+        document.getElementById("getAddress").innerHTML = result1;
+      });
+    });
     $('#createAccount').click(function (e) {
       e.preventDefault();
       if(web3.eth.defaultAccount === undefined) {
@@ -92,6 +112,8 @@
         log("Connected to the Ropsten test network.");
         secureChat = web3.eth.contract(abi).at(address);
         $("#refresh").click();
+        $("#myProfile").click();
+
         }
     }
   });
